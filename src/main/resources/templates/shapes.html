@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shapes</title>
+</head>
+<body>
+
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Scope</th>
+            <th>Surface</th>
+            <th>Volume</th>
+        </tr>
+        <tr th:each="shape: ${shapes}">
+            <td th:text="${shape.name}"></td>
+            <td th:text="${shape.scope}"></td>
+            <td th:text="${shape.surface}"></td>
+            <td th:text="${shape.volume}"></td>
+
+        </tr>
+    </table>
+<!--    <ul>-->
+<!--        <li th:each="shape: ${shapes}">-->
+<!--            <span th:text="${shape.name}"></span>-->
+
+<!--        </li>-->
+<!--    </ul>-->
+</body>
+</html>

@@ -17,7 +17,8 @@ public class DimensionController {
     }
 
     @GetMapping("/dimensions")
-    public List<Dimension> getAll() {
+    public List<Dimension> getAll()
+    {
         return dimensionService.getAll();
     }
 
@@ -25,6 +26,16 @@ public class DimensionController {
     @ResponseBody
     public Dimension createDimension(@RequestBody Dimension dimension) {
         return dimensionService.createDimension(dimension);
+    }
+
+    @DeleteMapping("/dimension/delete/{id}")
+    public void deleteDimensionById(@PathVariable Integer id) {
+        dimensionService.deleteDimension(id);
+    }
+
+    @PutMapping("/dimension/update/{id}")
+    public void updateDimension(@PathVariable Integer id, @RequestBody Dimension dimension) {
+        dimensionService.updateDimension(id,dimension);
     }
 
 }

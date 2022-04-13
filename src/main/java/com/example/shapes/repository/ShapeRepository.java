@@ -14,4 +14,6 @@ public interface ShapeRepository extends JpaRepository<Shape, Integer> {
 //    Shape getShape(@Param("shape_name") String shapeName);
 //
     Shape findAllByVolume(@Param("volume") Double volume);
+
+    
 }

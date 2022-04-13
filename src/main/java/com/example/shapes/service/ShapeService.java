@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -17,8 +18,8 @@ public class ShapeService {
         this.shapeRepository = shapeRepository;
     }
 
-    public Shape getShapeById(Integer id) {
-        return shapeRepository.getById(id);
+    public Optional<Shape> getShapeById(Integer id) {
+        return shapeRepository.findById(id);
     }
 
     public List<Shape> getAllShapes() {
@@ -33,9 +34,15 @@ public class ShapeService {
         return shapeRepository.save(shape);
     }
 
+    public void deleteShape(Integer id) {
+        shapeRepository.deleteById(id);
+    }
     public Shape findAllByVolume(double volume) {
         return shapeRepository.findAllByVolume(volume);
     }
 
-
+    public void updateShape(Integer id, Shape shape) {
+        shape.setId(id);
+        shapeRepository.save(shape);
+    }
 }

@@ -2,11 +2,14 @@ package com.example.shapes.controller;
 
 import com.example.shapes.entity.Shape;
 import com.example.shapes.service.ShapeService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
-@RestController
+@Controller
 public class ShapeController {
 
     private final ShapeService shapeService;
@@ -15,11 +18,16 @@ public class ShapeController {
         this.shapeService = shapeService;
     }
 
-    @GetMapping(path = "/shapes")
-    public List<Shape> getShapes() {
-        return shapeService.getAllShapes();
-    }
+//    @GetMapping(path = "/shapes")
+//    public List<Shape> getShapes() {
+//        return shapeService.getAllShapes();
+//    }
 
+    @GetMapping("/shapes")
+    public String getShapes(Model model) {
+        model.addAttribute("shapes", shapeService.getAllShapes());
+        return "shapes";
+    }
 
     @PostMapping(path = "shapes/add")
     @ResponseBody
@@ -28,7 +36,7 @@ public class ShapeController {
     }
 
     @GetMapping("shapes/{id}")
-    public Shape getShapeById(@PathVariable("id") Integer id) {
+    public Optional<Shape> getShapeById(@PathVariable("id") Integer id) {
         return shapeService.getShapeById(id);
     }
 
@@ -37,4 +45,13 @@ public class ShapeController {
         return shapeService.getShapeByName(name);
     }
 
+    @DeleteMapping("/shapes/delete/{id}")
+    public void deleteById(@PathVariable("id") Integer id) {
+        shapeService.deleteShape(id);
+    }
+
+    @PutMapping("shape/update/{id}")
+    public void updateShape(@PathVariable Integer id, @RequestBody Shape shape) {
+        shapeService.updateShape(id, shape);
+    }
 }
