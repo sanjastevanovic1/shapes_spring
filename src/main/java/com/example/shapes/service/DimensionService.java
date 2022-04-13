@@ -26,4 +26,7 @@ public class DimensionService {
         return dimensionRepository.findAll();
     }
 
+    public Dimension createDimension(Dimension dimension) {
+        return dimensionRepository.save(dimension);
+    }
 }

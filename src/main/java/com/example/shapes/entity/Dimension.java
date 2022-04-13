@@ -10,7 +10,7 @@ public class Dimension {
     private int id;
     String name;
     double value;
-    @ManyToMany
+    @ManyToMany(mappedBy = "dimensionList")
     List<Shape> shapeList;
 
     public Dimension(String name, double value) {

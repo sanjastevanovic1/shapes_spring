@@ -1,9 +1,9 @@
 package com.example.shapes.controller;
 
 import com.example.shapes.entity.Dimension;
+import com.example.shapes.entity.Shape;
 import com.example.shapes.service.DimensionService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,5 +21,10 @@ public class DimensionController {
         return dimensionService.getAll();
     }
 
+    @PostMapping(path = "dimensions/add")
+    @ResponseBody
+    public Dimension createDimension(@RequestBody Dimension dimension) {
+        return dimensionService.createDimension(dimension);
+    }
 
 }

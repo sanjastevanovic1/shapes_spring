@@ -21,15 +21,20 @@ public class ShapeController {
     }
 
 
-    @PostMapping("/add")
-    public Shape createShape(Shape shape) {
+    @PostMapping(path = "shapes/add")
+    @ResponseBody
+    public Shape createShape(@RequestBody Shape shape) {
         return shapeService.createShape(shape);
     }
 
     @GetMapping("shapes/{id}")
-    public Shape getShapeById(@PathVariable("id") int id) {
+    public Shape getShapeById(@PathVariable("id") Integer id) {
         return shapeService.getShapeById(id);
     }
 
+    @GetMapping("shapes/name/{name}")
+    public Shape getShapeByName(@PathVariable("name") String name) {
+        return shapeService.getShapeByName(name);
+    }
 
 }

@@ -6,13 +6,18 @@ import java.util.List;
 @Entity
 public class Shape {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue
+    private Integer id;
     private String name;
     private Double scope;
     private Double surface;
     private Double volume;
     @ManyToMany
+    @JoinTable(
+            name="shape_dimension",
+            joinColumns = @JoinColumn(name="dimension_id"),
+            inverseJoinColumns = @JoinColumn(name = "shape_id")
+    )
     List<Dimension> dimensionList;
     public Shape(String name, Double scope, Double surface, Double volume) {
         this.name = name;
@@ -24,7 +29,7 @@ public class Shape {
     public Shape() {}
 
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
