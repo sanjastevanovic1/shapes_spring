@@ -1,17 +1,21 @@
 package com.example.shapes.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Dimension {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     String name;
     double value;
     @ManyToMany(mappedBy = "dimensionList")
-    List<Shape> shapeList;
+    @JsonIgnore
+    private List<Shape> shapeList;
 
     public Dimension(String name, double value) {
         this.name = name;
@@ -20,7 +24,7 @@ public class Dimension {
 
     public Dimension() {}
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -42,6 +46,18 @@ public class Dimension {
 
     public void setValue(double value) {
         this.value = value;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public List<Shape> getShapeList() {
+        return shapeList;
+    }
+
+    public void setShapeList(List<Shape> shapeList) {
+        this.shapeList = shapeList;
     }
 
     @Override

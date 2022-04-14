@@ -1,5 +1,6 @@
 package com.example.shapes.service;
 
+import com.example.shapes.entity.Dimension;
 import com.example.shapes.entity.Shape;
 import com.example.shapes.repository.ShapeRepository;
 import org.springframework.stereotype.Service;
@@ -37,12 +38,19 @@ public class ShapeService {
     public void deleteShape(Integer id) {
         shapeRepository.deleteById(id);
     }
-    public Shape findAllByVolume(double volume) {
-        return shapeRepository.findAllByVolume(volume);
+    public List<Shape> findAllByVolume(Double volume) {
+        return shapeRepository.getByVolume(volume);
     }
 
+    public List<Shape> findAllByScope(Double volume) {
+        return shapeRepository.getByScope(volume);
+    }
+    public List<Shape> findAllBySurface(Double volume) {
+        return shapeRepository.getBySurface(volume);
+    }
     public void updateShape(Integer id, Shape shape) {
         shape.setId(id);
         shapeRepository.save(shape);
     }
+
 }

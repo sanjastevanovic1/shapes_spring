@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface ShapeRepository extends JpaRepository<Shape, Integer> {
     Shape getByName(String name);
 
@@ -13,7 +15,9 @@ public interface ShapeRepository extends JpaRepository<Shape, Integer> {
 //    )
 //    Shape getShape(@Param("shape_name") String shapeName);
 //
-    Shape findAllByVolume(@Param("volume") Double volume);
 
-    
+    List<Shape> getByScope(Double scope);
+    List<Shape> getBySurface(Double surface);
+    List<Shape> getByVolume(Double volume);
+
 }

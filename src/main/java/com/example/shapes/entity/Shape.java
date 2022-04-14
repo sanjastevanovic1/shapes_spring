@@ -1,12 +1,13 @@
 package com.example.shapes.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Shape {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private Double scope;
@@ -15,16 +16,18 @@ public class Shape {
     @ManyToMany
     @JoinTable(
             name="shape_dimension",
-            joinColumns = @JoinColumn(name="dimension_id"),
-            inverseJoinColumns = @JoinColumn(name = "shape_id")
+            joinColumns = @JoinColumn(name="shape_id"),
+            inverseJoinColumns = @JoinColumn(name = "dimension_id")
     )
-    List<Dimension> dimensionList;
+    private List<Dimension> dimensionList;
     public Shape(String name, Double scope, Double surface, Double volume) {
         this.name = name;
         this.scope = scope;
         this.surface = surface;
         this.volume = volume;
     }
+
+
 
     public Shape() {}
 
@@ -67,6 +70,14 @@ public class Shape {
 
     public void setVolume(Double volume) {
         this.volume = volume;
+    }
+
+    public List<Dimension> getDimensionList() {
+        return dimensionList;
+    }
+
+    public void addDimension(Dimension dimension) {
+        dimensionList.add(dimension);
     }
 
     @Override

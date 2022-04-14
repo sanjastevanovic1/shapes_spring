@@ -2,14 +2,12 @@ package com.example.shapes.controller;
 
 import com.example.shapes.entity.Shape;
 import com.example.shapes.service.ShapeService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 public class ShapeController {
 
     private final ShapeService shapeService;
@@ -18,16 +16,11 @@ public class ShapeController {
         this.shapeService = shapeService;
     }
 
-//    @GetMapping(path = "/shapes")
-//    public List<Shape> getShapes() {
-//        return shapeService.getAllShapes();
-//    }
-
-    @GetMapping("/shapes")
-    public String getShapes(Model model) {
-        model.addAttribute("shapes", shapeService.getAllShapes());
-        return "shapes";
+    @GetMapping(path = "/shapes")
+    public List<Shape> getShapes() {
+        return shapeService.getAllShapes();
     }
+
 
     @PostMapping(path = "shapes/add")
     @ResponseBody
@@ -53,5 +46,20 @@ public class ShapeController {
     @PutMapping("shape/update/{id}")
     public void updateShape(@PathVariable Integer id, @RequestBody Shape shape) {
         shapeService.updateShape(id, shape);
+    }
+
+    @GetMapping("shapes/volume/{value}")
+    public List<Shape> getByVolume(@PathVariable("value") Double value) {
+        return shapeService.findAllByVolume(value);
+    }
+
+    @GetMapping("shapes/scope/{value}")
+    public List<Shape> getByScope(@PathVariable("value") Double value) {
+        return shapeService.findAllByScope(value);
+    }
+
+    @GetMapping("shapes/surface/{value}")
+    public List<Shape> getBySurface(@PathVariable("value") Double value) {
+        return shapeService.findAllBySurface(value);
     }
 }

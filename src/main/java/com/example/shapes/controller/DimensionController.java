@@ -1,11 +1,11 @@
 package com.example.shapes.controller;
 
 import com.example.shapes.entity.Dimension;
-import com.example.shapes.entity.Shape;
 import com.example.shapes.service.DimensionService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class DimensionController {
@@ -21,7 +21,10 @@ public class DimensionController {
     {
         return dimensionService.getAll();
     }
-
+    @GetMapping("dimensions/{id}")
+    public Optional<Dimension> getDimensionById(@PathVariable("id") Integer id) {
+        return dimensionService.getDimensionById(id);
+    }
     @PostMapping(path = "dimensions/add")
     @ResponseBody
     public Dimension createDimension(@RequestBody Dimension dimension) {
@@ -37,5 +40,9 @@ public class DimensionController {
     public void updateDimension(@PathVariable Integer id, @RequestBody Dimension dimension) {
         dimensionService.updateDimension(id,dimension);
     }
-
+    @GetMapping("/dimensions/value/{v}")
+    public List<Dimension> getAllByValue(@PathVariable("v") Double v)
+    {
+        return dimensionService.getByValue(v);
+    }
 }

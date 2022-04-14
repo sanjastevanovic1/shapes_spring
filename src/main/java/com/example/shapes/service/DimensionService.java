@@ -1,14 +1,12 @@
 package com.example.shapes.service;
 
 import com.example.shapes.entity.Dimension;
-import com.example.shapes.entity.Shape;
 import com.example.shapes.repository.DimensionRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class DimensionService {
 
@@ -21,7 +19,7 @@ public class DimensionService {
     public Dimension getDimensionByName(String name) {
         return dimensionRepository.getByName(name);
     }
-    public Dimension getByValue(double value) {
+    public List<Dimension> getByValue(double value) {
         return dimensionRepository.getByValue(value);
     }
 
@@ -36,6 +34,9 @@ public class DimensionService {
         dimensionRepository.deleteById(id);
     }
 
+    public Optional<Dimension> getDimensionById(Integer id) {
+        return dimensionRepository.findById(id);
+    }
     public void updateDimension(Integer id, Dimension dimension) {
         dimension.setId(id);
         dimensionRepository.save(dimension);
