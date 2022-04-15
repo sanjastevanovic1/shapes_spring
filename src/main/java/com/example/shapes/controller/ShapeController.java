@@ -23,13 +23,12 @@ public class ShapeController {
 
 
     @PostMapping(path = "shapes/add")
-    @ResponseBody
     public Shape createShape(@RequestBody Shape shape) {
         return shapeService.createShape(shape);
     }
 
     @GetMapping("shapes/{id}")
-    public Optional<Shape> getShapeById(@PathVariable("id") Integer id) {
+    public Optional<Shape> getShapeById(@PathVariable("id") Integer id) throws Exception {
         return shapeService.getShapeById(id);
     }
 
@@ -53,13 +52,18 @@ public class ShapeController {
         return shapeService.findAllByVolume(value);
     }
 
-    @GetMapping("shapes/scope/{value}")
-    public List<Shape> getByScope(@PathVariable("value") Double value) {
-        return shapeService.findAllByScope(value);
-    }
+//    @GetMapping("shapes/scope/{value}")
+//    public List<Shape> getByScope(@PathVariable("value") Double value) {
+//        return shapeService.findAllByScope(value);
+//    }
 
     @GetMapping("shapes/surface/{value}")
     public List<Shape> getBySurface(@PathVariable("value") Double value) {
         return shapeService.findAllBySurface(value);
+    }
+
+    @GetMapping("shapes/dimension/{value}")
+    public List<Shape> getShapeByDimesnion(@PathVariable("value") Double value) {
+        return shapeService.getTriangleByDimension(value);
     }
 }

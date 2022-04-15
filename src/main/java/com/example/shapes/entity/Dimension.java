@@ -3,7 +3,6 @@ package com.example.shapes.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,7 +11,7 @@ public class Dimension {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     String name;
-    double value;
+    Double value;
     @ManyToMany(mappedBy = "dimensionList")
     @JsonIgnore
     private List<Shape> shapeList;

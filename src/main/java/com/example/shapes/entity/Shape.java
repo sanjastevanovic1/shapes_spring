@@ -1,5 +1,7 @@
 package com.example.shapes.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,17 +22,16 @@ public class Shape {
             inverseJoinColumns = @JoinColumn(name = "dimension_id")
     )
     private List<Dimension> dimensionList;
-    public Shape(String name, Double scope, Double surface, Double volume) {
+
+    public Shape() {}
+
+    public Shape(String name, Double scope, Double surface, Double volume, List<Dimension> dimensionList) {
         this.name = name;
         this.scope = scope;
         this.surface = surface;
         this.volume = volume;
+        this.dimensionList = dimensionList;
     }
-
-
-
-    public Shape() {}
-
 
     public Integer getId() {
         return id;

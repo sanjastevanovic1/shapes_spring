@@ -26,7 +26,6 @@ public class DimensionController {
         return dimensionService.getDimensionById(id);
     }
     @PostMapping(path = "dimensions/add")
-    @ResponseBody
     public Dimension createDimension(@RequestBody Dimension dimension) {
         return dimensionService.createDimension(dimension);
     }
@@ -40,9 +39,9 @@ public class DimensionController {
     public void updateDimension(@PathVariable Integer id, @RequestBody Dimension dimension) {
         dimensionService.updateDimension(id,dimension);
     }
-    @GetMapping("/dimensions/value/{v}")
-    public List<Dimension> getAllByValue(@PathVariable("v") Double v)
+    @GetMapping("/dimensions/value/{value}")
+    public List<Dimension> getAllByValue(@PathVariable("value") Double value)
     {
-        return dimensionService.getByValue(v);
+        return dimensionService.getByValue(value);
     }
 }

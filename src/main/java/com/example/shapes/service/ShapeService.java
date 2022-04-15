@@ -1,11 +1,11 @@
 package com.example.shapes.service;
 
-import com.example.shapes.entity.Dimension;
 import com.example.shapes.entity.Shape;
 import com.example.shapes.repository.ShapeRepository;
 import org.springframework.stereotype.Service;
 
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +20,14 @@ public class ShapeService {
     }
 
     public Optional<Shape> getShapeById(Integer id) {
-        return shapeRepository.findById(id);
+        if(id == null) {
+            throw new IllegalArgumentException("id cannot be null");
+        }
+        Optional<Shape> res = shapeRepository.findById(id);
+//        if(res.isPresent()) {
+//            return res;
+//        }
+        return res;
     }
 
     public List<Shape> getAllShapes() {
@@ -32,6 +39,9 @@ public class ShapeService {
     }
 
     public Shape createShape(Shape shape) {
+        if(shape.getDimensionList().size() == 0) {
+            throw new InputMismatchException("Number of dimensions cannot be 0");
+        }
         return shapeRepository.save(shape);
     }
 
@@ -42,9 +52,9 @@ public class ShapeService {
         return shapeRepository.getByVolume(volume);
     }
 
-    public List<Shape> findAllByScope(Double volume) {
-        return shapeRepository.getByScope(volume);
-    }
+//    public List<Shape> findAllByScope(Double volume) {
+//        return shapeRepository.getByScope(volume);
+//    }
     public List<Shape> findAllBySurface(Double volume) {
         return shapeRepository.getBySurface(volume);
     }
@@ -52,5 +62,7 @@ public class ShapeService {
         shape.setId(id);
         shapeRepository.save(shape);
     }
-
+    public List<Shape> getTriangleByDimension(Double value){
+        return shapeRepository.getTriangleByDimension(value);
+    }
 }
