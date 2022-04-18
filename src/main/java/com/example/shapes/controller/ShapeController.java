@@ -2,7 +2,6 @@ package com.example.shapes.controller;
 
 import com.example.shapes.dto.ShapeDto;
 import com.example.shapes.entity.Shape;
-import com.example.shapes.exception.NotFoundException;
 import com.example.shapes.service.ShapeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +22,8 @@ public class ShapeController {
 
 
     @GetMapping(path = "/shapes")
-    public List<ShapeDto> getShapes() {
-        return shapeService.getAllShapes();
+    public ResponseEntity<List<ShapeDto>> getShapes() {
+        return new ResponseEntity<>(shapeService.getAllShapes(), HttpStatus.OK);
     }
 
 
@@ -34,7 +33,7 @@ public class ShapeController {
     }
 
     @GetMapping("shapes/{id}")
-    public Optional<Shape> getShapeById(@PathVariable("id") Integer id) throws Exception {
+    public Optional<Shape> getShapeById(@PathVariable("id") Integer id) {
         return shapeService.getShapeById(id);
     }
 
@@ -64,15 +63,14 @@ public class ShapeController {
 //    }
 
     @GetMapping("shapes/surface/{value}")
-    public List<ShapeDto> getBySurface(@PathVariable("value") Double value) {
-        return shapeService.findAllBySurface(value);
+    public ResponseEntity<List<ShapeDto>> getBySurface(@PathVariable("value") Double value) {
+
+        return new ResponseEntity<>(shapeService.findAllBySurface(value), HttpStatus.ACCEPTED);
     }
 
     @GetMapping("shapes/dimension/{value}")
     public ResponseEntity<List<ShapeDto>> getShapeByDimesnion(@PathVariable("value") Double value) {
-        if(shapeService.getTriangleByDimension(value) == null) {
-            throw new NotFoundException("Not found");
-        }
+
         return new ResponseEntity<>(shapeService.getTriangleByDimension(value), HttpStatus.OK);
     }
 }

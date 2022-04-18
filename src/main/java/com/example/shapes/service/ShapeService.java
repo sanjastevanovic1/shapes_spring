@@ -2,6 +2,7 @@ package com.example.shapes.service;
 
 import com.example.shapes.dto.ShapeDto;
 import com.example.shapes.entity.Shape;
+import com.example.shapes.exception.InputException;
 import com.example.shapes.exception.NotFoundException;
 import com.example.shapes.exception.ShapeControllerAdvice;
 import com.example.shapes.mapper.ShapeMapper;
@@ -45,14 +46,14 @@ public class ShapeService {
 
     public ShapeDto getShapeByName(String name) {
         if(shapeRepository.getByName(name) == null) {
-
+            throw new NotFoundException("Not found shape with that name");
         }
         return ShapeMapper.toShapeDto(shapeRepository.getByName(name));
     }
 
     public ShapeDto createShape(Shape shape) {
         if(shape.getDimensionList().size() == 0) {
-            throw new InputMismatchException("Number of dimensions cannot be 0");
+            throw new InputException("Number of dimensions cannot be 0");
         }
         ShapeDto shapeDto = ShapeMapper.toShapeDto(shapeRepository.save(shape));
         return shapeDto;
@@ -62,7 +63,7 @@ public class ShapeService {
         if(shapeRepository.findById(id).isPresent()) {
             shapeRepository.deleteById(id);
         } else {
-
+            throw new NotFoundException("Cannot be deleted. There is not shape with that id");
         }
     }
     public List<ShapeDto> findAllByVolume(Double volume) {

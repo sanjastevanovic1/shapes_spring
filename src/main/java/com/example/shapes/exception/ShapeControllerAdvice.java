@@ -6,15 +6,19 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class ShapeControllerAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<Object> handleShapeNotFoundException(NotFoundException e, HttpServletRequest request) {
-        String message = "Shape not found";
+    public ResponseEntity<Object> handleShapeNotFoundException(NotFoundException e) {
+        logger.error(e);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
 
-        return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+    @ExceptionHandler(InputException.class)
+    public ResponseEntity<Object> handleInputException(InputException e) {
+        logger.error(e);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
