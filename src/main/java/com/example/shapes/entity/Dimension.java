@@ -12,9 +12,9 @@ public class Dimension {
     private Integer id;
     String name;
     Double value;
-    @ManyToMany(mappedBy = "dimensionList")
-    @JsonIgnore
-    private List<Shape> shapeList;
+//    @ManyToMany(mappedBy = "dimensionList")
+//    @JsonIgnore
+//    private List<Shape> shapeList;
 
     public Dimension(String name, double value) {
         this.name = name;
@@ -51,13 +51,13 @@ public class Dimension {
         this.id = id;
     }
 
-    public List<Shape> getShapeList() {
-        return shapeList;
-    }
-
-    public void setShapeList(List<Shape> shapeList) {
-        this.shapeList = shapeList;
-    }
+//    public List<Shape> getShapeList() {
+//        return shapeList;
+//    }
+//
+//    public void setShapeList(List<Shape> shapeList) {
+//        this.shapeList = shapeList;
+//    }
 
     @Override
     public String toString() {

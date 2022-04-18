@@ -1,10 +1,14 @@
 package com.example.shapes.service;
 
+import com.example.shapes.dto.ShapeDto;
 import com.example.shapes.entity.Shape;
+import com.example.shapes.exception.NotFoundException;
+import com.example.shapes.exception.ShapeControllerAdvice;
+import com.example.shapes.mapper.ShapeMapper;
 import com.example.shapes.repository.ShapeRepository;
 import org.springframework.stereotype.Service;
 
-
+import javax.servlet.http.HttpServletRequest;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Optional;
@@ -24,45 +28,58 @@ public class ShapeService {
             throw new IllegalArgumentException("id cannot be null");
         }
         Optional<Shape> res = shapeRepository.findById(id);
-//        if(res.isPresent()) {
-//            return res;
-//        }
-        return res;
+        if(res.isPresent()) {
+            return res;
+        } else {
+            throw new NotFoundException("Shape not found. Wrong id");
+        }
     }
 
-    public List<Shape> getAllShapes() {
-        return shapeRepository.findAll();
+
+
+    public List<ShapeDto> getAllShapes() {
+        List<Shape> shapeList = shapeRepository.findAll();
+        List<ShapeDto> shapeDtoList = ShapeMapper.toShapeDtoList(shapeList);
+        return shapeDtoList;
     }
 
-    public Shape getShapeByName(String name) {
-        return shapeRepository.getByName(name);
+    public ShapeDto getShapeByName(String name) {
+        if(shapeRepository.getByName(name) == null) {
+
+        }
+        return ShapeMapper.toShapeDto(shapeRepository.getByName(name));
     }
 
-    public Shape createShape(Shape shape) {
+    public ShapeDto createShape(Shape shape) {
         if(shape.getDimensionList().size() == 0) {
             throw new InputMismatchException("Number of dimensions cannot be 0");
         }
-        return shapeRepository.save(shape);
+        ShapeDto shapeDto = ShapeMapper.toShapeDto(shapeRepository.save(shape));
+        return shapeDto;
     }
 
     public void deleteShape(Integer id) {
-        shapeRepository.deleteById(id);
+        if(shapeRepository.findById(id).isPresent()) {
+            shapeRepository.deleteById(id);
+        } else {
+
+        }
     }
-    public List<Shape> findAllByVolume(Double volume) {
-        return shapeRepository.getByVolume(volume);
+    public List<ShapeDto> findAllByVolume(Double volume) {
+        return ShapeMapper.toShapeDtoList(shapeRepository.getByVolume(volume));
     }
 
 //    public List<Shape> findAllByScope(Double volume) {
 //        return shapeRepository.getByScope(volume);
 //    }
-    public List<Shape> findAllBySurface(Double volume) {
-        return shapeRepository.getBySurface(volume);
+    public List<ShapeDto> findAllBySurface(Double volume) {
+        return ShapeMapper.toShapeDtoList(shapeRepository.getBySurface(volume));
     }
     public void updateShape(Integer id, Shape shape) {
         shape.setId(id);
         shapeRepository.save(shape);
     }
-    public List<Shape> getTriangleByDimension(Double value){
-        return shapeRepository.getTriangleByDimension(value);
+    public List<ShapeDto> getTriangleByDimension(Double value){
+        return ShapeMapper.toShapeDtoList(shapeRepository.getTriangleByDimension(value));
     }
 }

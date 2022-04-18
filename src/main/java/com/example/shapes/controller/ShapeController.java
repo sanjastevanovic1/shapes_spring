@@ -1,7 +1,11 @@
 package com.example.shapes.controller;
 
+import com.example.shapes.dto.ShapeDto;
 import com.example.shapes.entity.Shape;
+import com.example.shapes.exception.NotFoundException;
 import com.example.shapes.service.ShapeService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,18 +16,20 @@ public class ShapeController {
 
     private final ShapeService shapeService;
 
+
     public ShapeController(ShapeService shapeService) {
         this.shapeService = shapeService;
     }
 
+
     @GetMapping(path = "/shapes")
-    public List<Shape> getShapes() {
+    public List<ShapeDto> getShapes() {
         return shapeService.getAllShapes();
     }
 
 
     @PostMapping(path = "shapes/add")
-    public Shape createShape(@RequestBody Shape shape) {
+    public ShapeDto createShape(@RequestBody Shape shape) {
         return shapeService.createShape(shape);
     }
 
@@ -33,7 +39,7 @@ public class ShapeController {
     }
 
     @GetMapping("shapes/name/{name}")
-    public Shape getShapeByName(@PathVariable("name") String name) {
+    public ShapeDto getShapeByName(@PathVariable("name") String name) {
         return shapeService.getShapeByName(name);
     }
 
@@ -48,7 +54,7 @@ public class ShapeController {
     }
 
     @GetMapping("shapes/volume/{value}")
-    public List<Shape> getByVolume(@PathVariable("value") Double value) {
+    public List<ShapeDto> getByVolume(@PathVariable("value") Double value) {
         return shapeService.findAllByVolume(value);
     }
 
@@ -58,12 +64,15 @@ public class ShapeController {
 //    }
 
     @GetMapping("shapes/surface/{value}")
-    public List<Shape> getBySurface(@PathVariable("value") Double value) {
+    public List<ShapeDto> getBySurface(@PathVariable("value") Double value) {
         return shapeService.findAllBySurface(value);
     }
 
     @GetMapping("shapes/dimension/{value}")
-    public List<Shape> getShapeByDimesnion(@PathVariable("value") Double value) {
-        return shapeService.getTriangleByDimension(value);
+    public ResponseEntity<List<ShapeDto>> getShapeByDimesnion(@PathVariable("value") Double value) {
+        if(shapeService.getTriangleByDimension(value) == null) {
+            throw new NotFoundException("Not found");
+        }
+        return new ResponseEntity<>(shapeService.getTriangleByDimension(value), HttpStatus.OK);
     }
 }

@@ -1,7 +1,10 @@
 package com.example.shapes.service;
 
+import com.example.shapes.dto.DimensionDto;
 import com.example.shapes.entity.Dimension;
+import com.example.shapes.mapper.DimensionMapper;
 import com.example.shapes.repository.DimensionRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,15 +19,19 @@ public class DimensionService {
         this.dimensionRepository = dimensionRepository;
     }
 
-    public Dimension getDimensionByName(String name) {
-        return dimensionRepository.getByName(name);
+    public DimensionDto getDimensionByName(String name) {
+        Dimension dim = dimensionRepository.getByName(name);
+        DimensionDto dimensionDto = DimensionMapper.toDimensionDto(dim);
+        return dimensionDto;
     }
-    public List<Dimension> getByValue(double value) {
-        return dimensionRepository.getByValue(value);
+    public List<DimensionDto> getByValue(double value) {
+        List<Dimension> dimensionList = dimensionRepository.getByValue(value);
+        return DimensionMapper.dimensionListToDtoList(dimensionList);
     }
 
-    public List<Dimension> getAll() {
-        return dimensionRepository.findAll();
+    public List<DimensionDto> getAll() {
+        List<Dimension> dimensionList = dimensionRepository.findAll();
+        return DimensionMapper.dimensionListToDtoList(dimensionList);
     }
 
     public Dimension createDimension(Dimension dimension) {

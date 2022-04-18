@@ -29,4 +29,6 @@ public interface ShapeRepository extends JpaRepository<Shape, Integer> {
     List<Shape> getTriangleByDimension(@Param("value") Double value);
 
 
+    @Query("SELECT s FROM Shape s JOIN s.dimensionList d WHERE d.value > :value")
+    List<Shape> getGreaterThanValue(@Param("value") Double value);
 }

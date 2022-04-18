@@ -1,6 +1,9 @@
 package com.example.shapes.dto;
 
+import com.example.shapes.entity.Dimension;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class ShapeDto {
@@ -9,4 +12,6 @@ public class ShapeDto {
     private Double scope;
     private Double surface;
     private Double volume;
+    private List<Dimension> dimensionList;
+
 }
