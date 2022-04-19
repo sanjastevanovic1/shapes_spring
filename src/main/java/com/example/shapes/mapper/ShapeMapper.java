@@ -31,4 +31,13 @@ public class ShapeMapper {
         });
         return shapeDtoList;
     }
+
+    public static Shape toShape(ShapeDto shapeDto) {
+        if(shapeDto == null) {
+            return null;
+        }
+        ModelMapper modelMapper = new ModelMapper();
+        Shape shape = modelMapper.map(shapeDto, Shape.class);
+        return shape;
+    }
 }

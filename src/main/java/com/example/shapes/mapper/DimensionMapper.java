@@ -30,4 +30,16 @@ public class DimensionMapper {
         });
         return dimensionDtoList;
     }
+
+    public static Dimension toDimension(DimensionDto dimensionDto) {
+        if(dimensionDto == null) {
+            return null;
+        }
+        Dimension dimension = new Dimension();
+        dimension.setId(dimensionDto.getId());
+        dimension.setName(dimensionDto.getName());
+        dimension.setValue(dimensionDto.getValue());
+
+        return dimension;
+    }
 }

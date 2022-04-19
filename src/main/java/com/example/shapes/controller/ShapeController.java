@@ -47,9 +47,9 @@ public class ShapeController {
         shapeService.deleteShape(id);
     }
 
-    @PutMapping("shape/update/{id}")
-    public void updateShape(@PathVariable Integer id, @RequestBody Shape shape) {
-        shapeService.updateShape(id, shape);
+    @PutMapping("shape/update")
+    public void updateShape(@RequestBody ShapeDto shapeDto) {
+        shapeService.updateShape(shapeDto);
     }
 
     @GetMapping("shapes/volume/{value}")

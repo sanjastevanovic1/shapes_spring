@@ -15,7 +15,7 @@ public class Shape {
     private Double scope;
     private Double surface;
     private Double volume;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name="shape_dimension",
             joinColumns = @JoinColumn(name="shape_id"),

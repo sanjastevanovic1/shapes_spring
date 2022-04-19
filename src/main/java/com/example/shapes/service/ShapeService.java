@@ -1,16 +1,16 @@
 package com.example.shapes.service;
 
 import com.example.shapes.dto.ShapeDto;
+import com.example.shapes.entity.Dimension;
 import com.example.shapes.entity.Shape;
 import com.example.shapes.exception.InputException;
 import com.example.shapes.exception.NotFoundException;
-import com.example.shapes.exception.ShapeControllerAdvice;
 import com.example.shapes.mapper.ShapeMapper;
 import com.example.shapes.repository.ShapeRepository;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.InputMismatchException;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,10 +37,22 @@ public class ShapeService {
     }
 
 
-
+    @Transactional
     public List<ShapeDto> getAllShapes() {
         List<Shape> shapeList = shapeRepository.findAll();
+//        for (Shape shape : shapeList) {
+//            List<Dimension> dimensionList = findByShapeList(shape.getId());
+//            List<Dimension> dimensionList = shape.getDimensionList();
+//            Hibernate.initialize(shape.getDimensionList());
+//            shape.getDimensionList();
+//        }
+
+
+
+
         List<ShapeDto> shapeDtoList = ShapeMapper.toShapeDtoList(shapeList);
+
+
         return shapeDtoList;
     }
 
@@ -76,11 +88,24 @@ public class ShapeService {
     public List<ShapeDto> findAllBySurface(Double volume) {
         return ShapeMapper.toShapeDtoList(shapeRepository.getBySurface(volume));
     }
-    public void updateShape(Integer id, Shape shape) {
-        shape.setId(id);
-        shapeRepository.save(shape);
+
+
+    public void updateShape(ShapeDto shapeDto) {
+//        Shape shape = shapeRepository.findById(shapeDto.getId());
+//        shape.setName("Sanja");
+//
+//
+        if(shapeRepository.findById(shapeDto.getId()).isPresent()) {
+            shapeRepository.save(ShapeMapper.toShape(shapeDto));
+        } else {
+            throw new NotFoundException("Cannot be updated. There is no shape with that id");
+        }
+
     }
     public List<ShapeDto> getTriangleByDimension(Double value){
+        if(shapeRepository.getTriangleByDimension(value).size() == 0) {
+            throw new NotFoundException("Not found any triangle with that dimension");
+        }
         return ShapeMapper.toShapeDtoList(shapeRepository.getTriangleByDimension(value));
     }
 }

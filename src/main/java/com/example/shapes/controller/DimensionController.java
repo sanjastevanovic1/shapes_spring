@@ -39,13 +39,12 @@ public class DimensionController {
     @PostMapping(path = "dimensions/add")
     public DimensionDto createDimension(@RequestBody Dimension dimension) {
 
-        Dimension dim = dimensionService.createDimension(dimension);
-        return DimensionMapper.toDimensionDto(dim);
+        return dimensionService.createDimension(dimension);
     }
 
-    @PutMapping("/dimension/update/{id}")
-    public void updateDimension(@PathVariable Integer id, @RequestBody Dimension dimension) {
-        dimensionService.updateDimension(id,dimension);
+    @PutMapping("/dimension/update")
+    public void updateDimension(@RequestBody DimensionDto dimensionDto) {
+        dimensionService.updateDimension(dimensionDto);
     }
 
     @DeleteMapping("/dimension/delete/{id}")
